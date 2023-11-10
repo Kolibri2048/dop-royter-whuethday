@@ -1,6 +1,6 @@
 import React from 'react';
 import {PagesType} from "../../data/dataState";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {Error404} from "./Error404";
 
 type PropsType = {
@@ -8,12 +8,18 @@ type PropsType = {
 }
 
 export const Page: React.FC<PropsType> = ({pages}) => {
-    //useParams берёшь все id которые находятся в site т.е он считывает данные после : '<Route path={'/page/:id'}' берём вообще во всём проекте ссылки дресные
     const params = useParams()
-    console.log(params.id)
-    // useLocation делает почти тоже самое что и парамс но только показывает нам весь адресс
     const location = useLocation()
-    console.log(location)
+    const navigate = useNavigate()
+
+
+    const obClickBackHandler = () => {
+        navigate(-1)
+    }
+
+    const obClickMainHandler = () => {
+        navigate('/page/0')
+    }
 
     return (
         <div>
@@ -23,6 +29,10 @@ export const Page: React.FC<PropsType> = ({pages}) => {
                 <div>
                     {pages[Number(params.id)].heading}
                     {pages[Number(params.id)].about}
+                    <div>
+                        <button onClick={obClickBackHandler}>Back</button>
+                        <button onClick={obClickMainHandler}>Main page</button>
+                    </div>
                 </div>
                 : <Error404/>
             }
